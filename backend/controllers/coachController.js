@@ -6,7 +6,7 @@ const { getCoaches, getCoach } = require('../models/coachModel');
 //@access Public
 const getAllCoaches = asyncHandler(async(req, res) => {
   const coaches = await getCoaches();
-  res.status(200).json({coaches})
+  res.status(200).json(coaches)
 });
 
 //@desc Get Single Coach
@@ -14,7 +14,7 @@ const getAllCoaches = asyncHandler(async(req, res) => {
 //@access Public
 const getSingleCoach = asyncHandler(async(req, res) => {
   const coach = await getCoach(req.params.id);
-  res.status(200).json({coach})
+  res.status(200).json(coach)
 });
 
 module.exports = {
