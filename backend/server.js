@@ -8,6 +8,7 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const passport = require('./config/passport');
 const authRoutes = require("./routes/authRoutes");
+const coachRoutes = require('./routes/coachRoutes')
 const leadRoutes = require("./routes/leadRoutes");
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(passport.initialize());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use('/api/coaches', coachRoutes);
 app.use("/api/leads", leadRoutes);
 
 const PORT = process.env.PORT || 5000;
