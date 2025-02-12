@@ -12,7 +12,23 @@ const getCoaches = async () => {
         bio: true,
         gender: true,
         experienceYear: true,
-      },
+        hourlyRate: true,
+        address: {
+          select: {
+            address1: true,
+            address2: true,
+            city: true,
+            state: true,
+            pincode: true,
+          }
+        },
+        specialization: {
+          select: {
+            name: true,
+            description: true
+          }
+        }
+      }
     });
 
     return coaches;
@@ -25,7 +41,7 @@ const getCoach = async(coachId) => {
   try {
     const coach = await prisma.coach.findUnique({
       where: {
-        id: coachId
+        id: parseInt(coachId)
       },
       select: {
         firstName: true,
@@ -36,7 +52,23 @@ const getCoach = async(coachId) => {
         bio: true,
         gender: true,
         experienceYear: true,
-      },
+        hourlyRate: true,
+        address: {
+          select: {
+            address1: true,
+            address2: true,
+            city: true,
+            state: true,
+            pincode: true,
+          }
+        },
+        specialization: {
+          select: {
+            name: true,
+            description: true
+          }
+        }
+      }
     });
     return coach;
   } catch (error) {

@@ -13,7 +13,7 @@ const getAllCoaches = asyncHandler(async(req, res) => {
 //@route /api/coaches/:id
 //@access Public
 const getSingleCoach = asyncHandler(async(req, res) => {
-  const coach = await getCoach(req.params.id, res);
+  const coach = await getCoach(req.params.id);
   res.status(200).json({coach})
 });
 
