@@ -12,6 +12,7 @@ export default function CoachDetail() {
   const { data: coach, isLoading, isError } = useQuery({
     queryKey: ["coach", id],
     queryFn: () => getCoachById(id),
+    enabled: !!id,
   });
 
   if (isLoading) return <p>Loading...</p>;

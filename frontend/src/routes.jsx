@@ -24,9 +24,7 @@ const AppRoutes = () => {
           <CoachDetail />
         } />
         <Route path="/book/:coachId" element={
-          <ProtectedRoute>
             <Booking />
-          </ProtectedRoute>
         } />
         <Route path="/profile" element={
           <ProtectedRoute>
