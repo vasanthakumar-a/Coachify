@@ -4,18 +4,39 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Modal from "react-modal";
 import { useCoach } from "../hooks/useCoaches";
+import axiosInstance from '../utils/axiosInstance';
 
 Modal.setAppElement("#root");
 
 export default function Booking() {
   const { coachId } = useParams();
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { data: coach, isLoading, isError } = useCoach(coachId);
 
   if (isLoading) return <p>Loading coach details...</p>;
   if (isError) return <p className="text-red-500">Failed to load coach details.</p>;
   if (!coach) return <p className="text-gray-500">Coach not found.</p>;
+
+  const handlePayment = async () => {
+    try {
+      const formattedDate = date.toISOString().split("T")[0]; // Format date
+      await axiosInstance.post("/coaches/"+coachId+"/booking", {
+        coachName: coach.username,
+        specialization: coach.specialization.name,
+        date: formattedDate,
+        time: time || "10:00 AM",
+      });
+
+      alert("Session booked successfully!");
+      setModalIsOpen(false);
+    } catch (error) {
+      console.error("Booking failed", error);
+      alert("Failed to book session");
+    }
+  };
+
 
   return (
     <div className="p-4 flex flex-col items-center">
@@ -26,6 +47,14 @@ export default function Booking() {
       <div className="mt-4">
         <Calendar onChange={setDate} value={date} />
       </div>
+
+      {/* Time Selection */}
+      <input
+        type="time"
+        className="mt-4 border px-2 py-1 rounded"
+        value={time}
+        onChange={(e) => setTime(e.target.value)}
+      />
 
       {/* Confirm Booking Button */}
       <button
@@ -46,6 +75,7 @@ export default function Booking() {
         <p><strong>Coach:</strong> {coach.username}</p>
         <p><strong>Specialization:</strong> {coach.specialization.name}</p>
         <p><strong>Date:</strong> {date.toDateString()}</p>
+        <p><strong>Time:</strong> {time || "10:00 AM"}</p>
 
         <div className="flex justify-end mt-4">
           <button
@@ -54,7 +84,10 @@ export default function Booking() {
           >
             Cancel
           </button>
-          <button className="px-4 py-2 bg-green-500 text-white rounded">
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded"
+            onClick={handlePayment}
+          >
             Pay Now
           </button>
         </div>
