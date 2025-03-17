@@ -1,28 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppRoutes from "./routes";
+
 import { Provider } from "react-redux";
-import store from "../store";
-import Login from "./Login";
-import Dashboard from "./Dashboard.jsx";
-import { useSelector } from "react-redux";
+import store from "./redux/store";
 
-const PrivateRoute = ({ children }) => {
-  const user = useSelector((state) => state.auth.user);
-  return user ? children : <Navigate to="/login" />;
-};
+const queryClient = new QueryClient();
 
-function App() {
+export default function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <AppRoutes />
+      </QueryClientProvider>
     </Provider>
   );
 }
-
-export default App;

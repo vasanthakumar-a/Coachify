@@ -11,6 +11,8 @@ const {
 //@route POST /api/auth/login
 //@access Public
 const loginUser = asyncHandler(async(req, res) => {
+  console.log('loginUser');
+  console.log(req.cookies._token);
   const { username, email, password } = req.body;
 
   if ((!username && !email) || !password) {
@@ -37,6 +39,15 @@ const loginUser = asyncHandler(async(req, res) => {
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '30m' }
     );
+    
+    res.cookie("_token", accessToken, {
+      httpOnly: false, // Prevents access via JavaScript (XSS protection)
+      secure: false, // Only send over HTTPS
+      // sameSite: "Strict", // Prevent CSRF attacks
+      sameSite: "Strict", // Required for cross-origin requests
+      maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
+    });
+
     res.status(200).json({message: 'Login successfull!', accessToken});
   } else {
     res.status(401);
@@ -76,6 +87,14 @@ const registerUser = asyncHandler(async(req, res) => {
 //@route POST /api/auth/profile
 //@access Private
 const getProfile = asyncHandler(async(req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+});
+
+//@desc Get Profile Details
+//@route POST /api/auth/profile
+//@access Private
+const logoutUser = asyncHandler(async(req, res) => {
   const user = req.user;
   res.status(200).json(user);
 });

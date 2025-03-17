@@ -4,6 +4,7 @@ const getCoaches = async () => {
   try {
     const coaches = await prisma.coach.findMany({
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         username: true,

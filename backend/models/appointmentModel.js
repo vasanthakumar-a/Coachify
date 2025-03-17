@@ -7,6 +7,7 @@ const getAppoinments = async(currentUserId) => {
         userId: currentUserId
       },
       select: {
+        id: true,
         name: true,
         from: true,
         to: true,
@@ -23,6 +24,11 @@ const getAppoinments = async(currentUserId) => {
         specialization: {
           select: {
             name: true,
+          }
+        },
+        user: {
+          select: {
+            id: true
           }
         }
       }
