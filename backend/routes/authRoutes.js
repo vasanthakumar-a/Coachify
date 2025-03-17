@@ -14,9 +14,6 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get(
   "/google/callback",
   passport.authenticate("google", { session: false, failureRedirect: "/login" }), (req, res) => {
-    console.log(req.user);
-    console.log(req.user.id);
-    console.log(req.user.email);
     const token = jwt.sign({ id: req.user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
     res.cookie("_token", token, {
       httpOnly: false,
