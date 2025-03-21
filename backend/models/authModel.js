@@ -35,10 +35,10 @@ const createUserModel = async ({ username, email, googleId }) => {
   });
 }
 
-const updateUserGoogleIdModel = async ({ email, googleId }) => {
+const updateUserGoogleIdModel = async ({ email, googleId, refreshToken }) => {
   return await prisma.user.update({
     where: { email },
-    data: { googleId }
+    data: { googleId, refreshToken }
   });
 }
 

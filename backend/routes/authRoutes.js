@@ -1,4 +1,5 @@
 const express = require("express");
+const { google } = require('googleapis');
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const validateTokenHandler = require("../middlewares/validateTokenHandler");
@@ -14,7 +15,22 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get(
   "/google/callback",
   passport.authenticate("google", { session: false, failureRedirect: "/login" }), (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+    const { code } = req.query;
+      console.log("Tokens received:", code);
+    const token = jwt.sign({
+      user: {
+        username: req.user.username,
+        email: req.user.email,
+        id: req.user.id,
+        accessToken: req.user.accessToken,
+        refreshToken: req.user.refreshToken,
+        code: code
+      }
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: '30m' }
+    );
+
     res.cookie("_token", token, {
       httpOnly: false,
       secure: false,

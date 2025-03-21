@@ -4,11 +4,12 @@ const {
   getSingleCoach,
   bookCoach
 } = require("../controllers/coachController");
+const validateTokenHandler = require("../middlewares/validateTokenHandler");
 
 const router = express.Router();
 
 router.route('/').get(getAllCoaches)
 router.route('/:id').get(getSingleCoach)
-router.route('/:id/booking').post(bookCoach)
+router.post('/:id/booking', validateTokenHandler, bookCoach)
 
 module.exports = router;

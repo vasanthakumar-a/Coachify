@@ -11,6 +11,13 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/api/auth/google/callback",
+      scope: [
+        "profile",
+        "email",
+        "https://www.googleapis.com/auth/calendar",
+        "https://www.googleapis.com/auth/calendar.events",
+        "https://www.googleapis.com/auth/calendar.events.readonly",
+      ],
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -20,13 +27,15 @@ passport.use(
             username: profile.displayName,
             email: profile.emails[0].value,
             googleId: profile.id,
+            refreshToken: refreshToken
           });
         } else {
-          if(!user.googleId) {
-            await updateUserGoogleIdModel(profile.emails[0].value, profile.id);
+          if(!user.googleId && !user.refreshToken) {
+            await updateUserGoogleIdModel(profile.emails[0].value, profile.id, refreshToken);
           }
         }
-        return done(null, user);
+        console.log(refreshToken)
+        return done(null, { ...user, accessToken, refreshToken });
       } catch (err) {
         return done(err, null);
       }
