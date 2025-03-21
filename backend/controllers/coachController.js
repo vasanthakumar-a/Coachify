@@ -45,20 +45,6 @@ const bookCoach = asyncHandler(async(req, res) => {
     prompt: "consent",
   });
 
-
-  // curl -X GET "https://www.googleapis.com/calendar/v3/calendars/primary/events" \
-  // -H "Authorization: Bearer ya29.a0AeXRPp5duB-qqWgxgnFdjgItmRA5vsEL7uXEB53jGc8nx9NeM7VjD3mXeOUORfUVPMdG8ANq2JzGhR46RxN3XuubXvuV2XZbYSzNOaqLzI-hWEFHcwwnCUfgFwZeEPA5o8fDCmGkemLM2dhNTLSNUbkUDibHt07-QIbJtaKoaCgYKAXkSARMSFQHGX2MiIrd809If3dcL0j75kkDGUw0175" \
-  // -H "Accept: application/json"
-
-
-  // const { tokens } = await oAuth2Client.getToken("4/0AQSTgQEwNy-57gux0VK8nohxB7BfMEdXGmpuJCSR3u4kbv0DOJugtCAaZlkdEAF81cQDfg");
-
-  // console.log("Came to 1:", tokens);
-
-  // const { tokens } = await oAuth2Client.getToken(reqCode);
-  // console.log("Tokens received 2:", tokens);
-  // const token = await oAuth2Client.getAccessToken();
-  // console.log("Generated Access Token:", token);
   oAuth2Client.setCredentials({ access_token: accessToken });
 
   console.log("Came to 2:");
