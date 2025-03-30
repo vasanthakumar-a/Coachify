@@ -7,7 +7,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   return (
-    <nav className="bg-blue-600 text-dark shadow-md">
+    <nav className="bg-blue-500 text-dark shadow-md">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold">

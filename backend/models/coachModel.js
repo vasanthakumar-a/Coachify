@@ -1,8 +1,42 @@
 const { prisma } = require('../config/dbConnection');
 
-const getCoaches = async () => {
+const getCoaches = async (searchQuery) => {
   try {
     const coaches = await prisma.coach.findMany({
+      where: {
+        OR: [
+          {
+            firstName: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            lastName: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            username: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            email: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            phone: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          }
+        ]
+      },
       select: {
         id: true,
         firstName: true,

@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <Provider store={store}>
-      <PrimeReactProvider value={{ unstyled: false, pt: Tailwind }}>
+      <PrimeReactProvider value={{ unstyled: false, pt: Tailwind, ripple: true }}>
         <QueryClientProvider client={queryClient}>
           <AppRoutes />
         </QueryClientProvider>

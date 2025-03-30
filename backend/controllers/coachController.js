@@ -6,7 +6,7 @@ const { google } = require("googleapis");
 //@route /api/coaches
 //@access Public
 const getAllCoaches = asyncHandler(async(req, res) => {
-  const coaches = await getCoaches();
+  const coaches = await getCoaches(req.query.search || "");
   res.status(200).json(coaches)
 });
 

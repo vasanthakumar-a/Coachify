@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import "primereact/resources/themes/lara-light-blue/theme.css"; // Light theme
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
