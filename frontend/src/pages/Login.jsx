@@ -46,7 +46,7 @@ export default function LoginPage() {
   }
 
   const handleGoogleLogin = () => {
-    window.open("http://localhost:5001/api/auth/google", "_self");
+    window.open("https://coachify-01m4.onrender.com/api/auth/google", "_self");
   };
 
   return (
