@@ -44,13 +44,10 @@ export default function Home() {
         />
       </IconField>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-      {data?.pages.map((page) => (
-          <>
-            {page.coaches.map((coach) => (
-              <CoachCard key={coach.id} coach={coach} />
-            ))}
-          </>
+        {data?.pages.map((page) => (
+          page.coaches.map((coach) => (
+            <CoachCard key={coach.id} coach={coach} />
+          ))
         ))}
       </div>
 
