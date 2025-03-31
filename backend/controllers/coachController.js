@@ -1,13 +1,21 @@
 const asyncHandler = require('express-async-handler');
-const { getCoaches, getCoach } = require('../models/coachModel');
+const { getCoaches, getCoach, totalCoaches } = require('../models/coachModel');
 const { google } = require("googleapis");
 
 //@desc Get All Coaches
 //@route /api/coaches
 //@access Public
 const getAllCoaches = asyncHandler(async(req, res) => {
-  const coaches = await getCoaches();
-  res.status(200).json(coaches)
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const searchQuery = req.query.search || "";
+  const coaches = await getCoaches(searchQuery, page, limit);
+  const total = await totalCoaches();
+  res.status(200).json({
+    coaches,
+    totalPages: Math.ceil(total / limit),
+    currentPage: page,
+  })
 });
 
 //@desc Get Single Coach

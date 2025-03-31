@@ -1,8 +1,42 @@
 const { prisma } = require('../config/dbConnection');
 
-const getCoaches = async () => {
+const getCoaches = async (searchQuery, page, limit) => {
   try {
     const coaches = await prisma.coach.findMany({
+      where: {
+        OR: [
+          {
+            firstName: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            lastName: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            username: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            email: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            phone: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          }
+        ]
+      },
       select: {
         id: true,
         firstName: true,
@@ -29,7 +63,9 @@ const getCoaches = async () => {
             description: true
           }
         }
-      }
+      },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return coaches;
@@ -77,7 +113,12 @@ const getCoach = async(coachId) => {
   }
 }
 
+const totalCoaches = async() => {
+  return await prisma.coach.count();
+}
+
 module.exports = {
   getCoaches,
-  getCoach
+  getCoach,
+  totalCoaches
 }
