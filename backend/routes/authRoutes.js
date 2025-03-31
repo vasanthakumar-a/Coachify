@@ -37,7 +37,7 @@ router.get(
       sameSite: "Strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.redirect("https://coachify-five.vercel.app/");
+    res.redirect("https://coachify-8rlhcxnnk-vasanthakumar-as-projects.vercel.app/");
   }
 );
 
