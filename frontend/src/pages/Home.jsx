@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCoaches } from "../hooks/useCoaches";
 import CoachCard from "../../components/CoachCard";
+import { useInView } from "react-intersection-observer"; // Detect scroll position
 
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
@@ -17,7 +18,16 @@ export default function Home() {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { data: coaches, isLoading, isError } = useCoaches(debouncedSearch);
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } = useCoaches(debouncedSearch);
+
+  const { ref, inView } = useInView(); // Hook to detect if user is at bottom
+
+  // Fetch next page when user reaches bottom
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading coaches. Please try again.</p>;
@@ -34,11 +44,19 @@ export default function Home() {
         />
       </IconField>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {coaches?.length > 0 ? (
-          coaches.map((coach) => <CoachCard key={coach.id} coach={coach} />)
-        ) : (
-          <p>No coaches available</p>
-        )}
+
+      {data?.pages.map((page) => (
+          <>
+            {page.coaches.map((coach) => (
+              <CoachCard key={coach.id} coach={coach} />
+            ))}
+          </>
+        ))}
+      </div>
+
+      {/* Infinite Scroll Loader */}
+      <div ref={ref} className="text-center p-4">
+        {isFetchingNextPage ? <p>Loading more...</p> : hasNextPage ? <p>Scroll to load more</p> : <p>No more coaches</p>}
       </div>
     </div>
   );
