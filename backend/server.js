@@ -18,7 +18,7 @@ connectDB();
 // Middlewares
 app.use(errorHandler);
 app.use(express.json());
-app.use(cors({ origin: "https://coachify-8rlhcxnnk-vasanthakumar-as-projects.vercel.app/", credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 app.use(helmet());
 app.use(cookieParser());
 app.use(morgan('dev'));
