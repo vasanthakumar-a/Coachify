@@ -54,25 +54,25 @@ async function main() {
     const addresses = await prisma.address.findMany({ select: { id: true } });
 
     // Create Coaches
-    const coaches = await Promise.all(
-        Array.from({ length: 1000 }).map(() =>
-            prisma.coach.create({
-                data: {
-                    firstName: faker.person.firstName(),
-                    lastName: faker.person.lastName(),
-                    username: faker.internet.userName(),
-                    email: faker.internet.email(),
-                    phone: faker.phone.number(),
-                    bio: faker.lorem.paragraph(),
-                    gender: faker.helpers.arrayElement(["Male", "Female", "Other"]),
-                    experienceYear: faker.number.int({ min: 1, max: 20 }),
-                    hourlyRate: faker.finance.amount(20, 100, 2),
-                    address: { connect: { id: faker.helpers.arrayElement(addresses).id } },
-                    specialization: { connect: { id: faker.helpers.arrayElement(specializationIds).id } },
-                },
-            })
-        )
-    );
+    // const coaches = await Promise.all(
+    //     Array.from({ length: 1000 }).map(() =>
+    //         prisma.coach.create({
+    //             data: {
+    //                 firstName: faker.person.firstName(),
+    //                 lastName: faker.person.lastName(),
+    //                 username: faker.internet.userName(),
+    //                 email: faker.internet.email(),
+    //                 phone: faker.phone.number(),
+    //                 bio: faker.lorem.paragraph(),
+    //                 gender: faker.helpers.arrayElement(["Male", "Female", "Other"]),
+    //                 experienceYear: faker.number.int({ min: 1, max: 20 }),
+    //                 hourlyRate: faker.finance.amount(20, 100, 2),
+    //                 address: { connect: { id: faker.helpers.arrayElement(addresses).id } },
+    //                 specialization: { connect: { id: faker.helpers.arrayElement(specializationIds).id } },
+    //             },
+    //         })
+    //     )
+    // );
 
     // Create Appointments
     // await Promise.all(
